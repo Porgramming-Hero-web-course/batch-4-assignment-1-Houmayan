@@ -39,17 +39,29 @@
 //   getAreaResult(circleResult);
 
 // Define a union type Circle and Rectangle, where each type has a unique shape property. Create a function calculateShapeArea that uses type guards to calculate the area based on the shape type.
-type Area = {
-  shape: "circle" | "rect";
+interface Circle {
+  shape: "circle";
   radius: number;
+}
+
+interface Rectangle {
+  shape: "rectangle";
   width: number;
   height: number;
-};
+}
 
-const getAreaCircle: Area = (shape: "circle", radius, width, height) => {
-  if (shape === "circle") {
-    console.log(Math.PI * radius * radius);
+type Shape = Circle | Rectangle;
+
+function calculateShapeArea(shape: Shape): number {
+  if (shape.shape === "circle") {
+    return Math.PI * Math.pow(shape.radius, 2);
+  } else if (shape.shape === "rectangle") {
+    return shape.width * shape.height;
+  } else {
+    return -1;
   }
-};
+}
 
-getAreaCircle("circle", 5);
+const circle: Circle = { shape: "circle", radius: 2 };
+const rectangle: Rectangle = { shape: "rectangle", width: 2, height: 5 };
+console.log(calculateShapeArea(circle), "\n", calculateShapeArea(rectangle));
